@@ -1,0 +1,6 @@
+<p>
+  <%= label 'settings[enable_log]', l(:enable_log, scope: :watchers_groups) %>
+  <%= hidden_field_tag('settings[enable_log]', false) %>
+  <%= check_box_tag('settings[enable_log]', true, @settings['enable_log'] == 'true') %>
+  <%= content_tag :em, l(:enable_log_info, scope: :watchers_groups), class: 'info' %>
+</p>

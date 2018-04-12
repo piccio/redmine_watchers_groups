@@ -1,0 +1,5 @@
+= redmine_watchers_groups
+
+tested on redmine version 3.4.4
+
+older redmine version: https://github.com/pstengel/redmine_groups_act_as_watchers

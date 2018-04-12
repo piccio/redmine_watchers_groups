@@ -1,0 +1,5 @@
+# English strings go here for Rails i18n
+en:
+  watchers_groups:
+    enable_log: 'enable log'
+    enable_log_info: 'check to enable log in log/watchers_groups.log'
