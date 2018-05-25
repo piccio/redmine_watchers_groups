@@ -12,6 +12,10 @@ Rails.configuration.to_prepare do
     Group.prepend(RedmineWatchersGroups::GroupPatch)
   end
 
+  unless Issue.included_modules.include? RedmineWatchersGroups::IssuePatch
+    Issue.prepend(RedmineWatchersGroups::IssuePatch)
+  end
+
   # prepend the helper's patch before the controller's patch otherwise it must be call
   # WatchersController.send(:helper, :watchers)
   # after helper's patch has prepended
