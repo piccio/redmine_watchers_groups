@@ -1,6 +1,9 @@
 require 'redmine_watchers_groups/project_patch'
+require 'redmine_watchers_groups/group_patch'
+require 'redmine_watchers_groups/issue_patch'
 require 'redmine_watchers_groups/watchers_controller_patch'
 require 'redmine_watchers_groups/watchers_helper_patch'
+require 'redmine_watchers_groups/issues_helper_patch'
 require 'redmine_watchers_groups/watchers_groups_logger'
 
 Rails.configuration.to_prepare do
@@ -25,6 +28,10 @@ Rails.configuration.to_prepare do
 
   unless WatchersController.included_modules.include? RedmineWatchersGroups::WatchersControllerPatch
     WatchersController.prepend(RedmineWatchersGroups::WatchersControllerPatch)
+  end
+
+  unless IssuesHelper.included_modules.include? RedmineWatchersGroups::IssuesHelperPatch
+    IssuesHelper.prepend(RedmineWatchersGroups::IssuesHelperPatch)
   end
 end
 
