@@ -10,12 +10,8 @@ module RedmineWatchersGroups
 
     def watchers_groups_list(object)
       watcher_ids = object.watcher_users.map(&:id)
-      scope = object.project.groups
-      groups = scope.active.visible.sorted.to_a
 
-      watcher_groups = Group.watcher_groups(watcher_ids)
-
-      groups = groups & watcher_groups
+      groups = Group.watcher_groups(watcher_ids)
 
       remove_allowed = User.current.allowed_to?(
         "delete_#{object.class.name.underscore}_watchers".to_sym, object.project)
