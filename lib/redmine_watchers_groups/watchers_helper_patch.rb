@@ -1,17 +1,21 @@
 module RedmineWatchersGroups
   module WatchersHelperPatch
 
+    # add watchers groups to the list of watchers on the right sidebar of the issue's ui (show action)
     def watchers_list(object)
       user_list = super
-      group_list = watchers_groups_list(object)
 
-      user_list + group_list
+      if object.is_a?(Issue)
+        group_list = watchers_groups_list(object)
+
+        user_list + group_list
+      else
+        user_list
+      end
     end
 
     def watchers_groups_list(object)
-      watcher_ids = object.watcher_users.map(&:id)
-
-      groups = Group.watcher_groups(watcher_ids)
+      groups = object.groups
 
       remove_allowed = User.current.allowed_to?(
         "delete_#{object.class.name.underscore}_watchers".to_sym, object.project)

@@ -13,6 +13,11 @@ module RedmineWatchersGroups
 
       groups.each do |group|
         @watchables.each do |watchable|
+          if watchable.is_a?(Issue)
+            IssueWatchersGroup.create(issue: watchable, group: group)
+          end
+
+          # add watchers users from groups
           group.users.each do |user|
             Watcher.create(watchable: watchable, user: user)
           end
@@ -39,8 +44,13 @@ module RedmineWatchersGroups
       if Group.exists?(id: params[:user_id])
         group = Group.find(params[:user_id])
 
-        group.users.each do |user|
-          @watchables.each do |watchable|
+        @watchables.each do |watchable|
+          if watchable.is_a?(Issue)
+            IssueWatchersGroup.where(issue: watchable, group: group).first.destroy
+          end
+
+          # remove watchers users from groups
+          group.users.each do |user|
             watchable.set_watcher(user, false)
           end
         end
@@ -57,6 +67,7 @@ module RedmineWatchersGroups
 
     private
 
+    # add groups to the 'Search for watchers to add' modal window
     def users_for_new_watcher
       users = super
       if params[:q].blank? && @project.present?
@@ -67,14 +78,10 @@ module RedmineWatchersGroups
       groups = scope.active.visible.sorted.like(params[:q]).to_a
 
       if @watchables && @watchables.size == 1
-        watcher_ids = @watchables.first.watchers.map(&:user_id)
-      else
-        watcher_ids = []
+        if @watchables.first.is_a?(Issue)
+          groups -= @watchables.first.groups
+        end
       end
-
-      watcher_groups = Group.watcher_groups(watcher_ids)
-
-      groups -= watcher_groups
 
       users + groups
     end

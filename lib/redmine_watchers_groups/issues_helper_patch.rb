@@ -1,6 +1,7 @@
 module RedmineWatchersGroups
   module IssuesHelperPatch
 
+    # lists groups to "new issue" ui, "watchers section"
     def users_for_new_issue_watchers(issue)
       users = super
 
