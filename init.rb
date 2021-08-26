@@ -41,7 +41,7 @@ Redmine::Plugin.register :redmine_watchers_groups do
   description <<-eos
     Give to the groups the ability to be added as watchers
   eos
-  version '1.0.0'
+  version '2.0.0'
   url 'https://github.com/piccio/redmine_watchers_groups'
   author_url 'https://github.com/piccio'
 
