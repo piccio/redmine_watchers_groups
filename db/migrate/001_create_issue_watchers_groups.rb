@@ -1,4 +1,4 @@
-class CreateIssueWatchersGroups < ActiveRecord::Migration
+class CreateIssueWatchersGroups < ActiveRecord::Migration[4.2]
   def change
     create_table :issue_watchers_groups do |t|
       t.references :issue
